@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-const images = ["/Carosuel2.avif", "/Carosuel3.avif", "/Carosuel4.avif"];
+const images = [
+  "/Carosuel2.avif",
+  "/Carosuel3.avif",
+  "/Carosuel4.avif",
+  "/Carosuel5.avif",
+];
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Function to go to the next slide
   const goToNextSlide = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
@@ -31,12 +35,12 @@ export default function Carousel() {
     <div className="relative w-full h-[400px] overflow-hidden">
       {/* Slide Images */}
       <div
-        className="flex transition-transform duration-500 ease-in-out"
+        className="flex transition-transform duration-500 ease-in-out gap-1 "
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
         {images.map((image, index) => (
           <div
             key={index}
-            className="w-full flex-shrink-0 h-[350px]"
+            className="w-full flex-shrink-0 h-[350px] mt-1  px-1 py-5 border-radius-10px "
             style={{
               backgroundImage: `url(${image})`,
               backgroundSize: "cover",
@@ -58,7 +62,7 @@ export default function Carousel() {
         &gt;
       </button>
 
-      {/* Pagination Dots */}
+      {/* Pagination Dots
       <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-3">
         {images.map((_, index) => (
           <button
@@ -69,7 +73,7 @@ export default function Carousel() {
             onClick={() => setCurrentIndex(index)}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }

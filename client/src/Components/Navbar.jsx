@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav class="flex justify-between items-center p-4 bg-gray-300 border-b-2">
+    <nav class="flex justify-between items-center p-3 px-[150px] bg-gray-300 border-b-2 shadow-lg">
       <div class="flex space-x-4">
         <Link to="/MoviePage" className="text-gray-700">
           Movies
