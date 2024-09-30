@@ -16,7 +16,6 @@ const Header = () => {
       className="w-full p-4 bg-gray-100
      shadow-md">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Left Section: Logo */}
         <div className="flex items-center space-x-2">
           <Link to="/">
             <div className="text-red-600 text-3xl font-bold">
