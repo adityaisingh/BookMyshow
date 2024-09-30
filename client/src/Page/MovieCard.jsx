@@ -1,16 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ movie }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (id) => {
+    navigate(`/details/${id}`);
+  };
   return (
-    <div className="max-w-xs overflow-hidden shadow-lg my-3 mx-3 bg-white rounded-3xl ">
-      <img
-        className="w-80 h-55 object-cover"
-        src={movie.image}
-        alt={movie.title}
-      />
-      <div className="px-3 py-3">
-        <div className="font-bold text-l mb-2 ">{movie.title}</div>
-        <p className="text-gray-700 text-base">{movie.genre}</p>
+    <div className="max-w-[300px] overflow-hidden shadow-lg my-2 mx-3 bg-white rounded-xl  ">
+      <div
+        className="cursor-pointer"
+        onClick={() => handleCardClick(movie?._id)}>
+        <img
+          className="rounded-t-lg h-70"
+          src={movie.image}
+          alt={movie.title}
+        />
       </div>
     </div>
   );

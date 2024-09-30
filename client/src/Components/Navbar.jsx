@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav class="flex justify-between items-center p-3 px-[150px] bg-gray-300 border-b-2 shadow-lg">
-      <div class="flex space-x-4">
-        <Link to="/MoviePage" className="text-gray-700">
+    <nav class="flex justify-between items-center p-3 px-[150px] bg-gray-100 border-t-2 shadow-lg">
+      <div class="flex space-x-6 font-bold">
+        <Link to="/all-movie" className="text-gray-700">
           Movies
         </Link>
         <Link to="/stream" className="text-gray-700">
@@ -19,7 +19,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div class="flex space-x-4">
+      <div class="flex space-x-6 font-bold">
         <Link to="/list-your-show" className="text-gray-700">
           List Your Show
         </Link>

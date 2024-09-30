@@ -6,6 +6,8 @@ import SignUpPage from "./Page/SignUpPage";
 import LoginPage from "./Page/loginPage";
 import HomePage from "./Components/HomePage";
 import AllMoviesPage from "./Page/AllmoviePage";
+import Footer from "./Components/Footer";
+import DetailsPage from "./Page/detailsPage";
 
 const App = () => {
   return (
@@ -17,7 +19,9 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/all-movie" element={<AllMoviesPage />} />
+        <Route path="/details/:id" element={<DetailsPage />} />
       </Routes>
+      <Footer />
     </div>
   );
 };
