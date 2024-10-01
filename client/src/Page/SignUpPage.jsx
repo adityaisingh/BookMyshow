@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -10,14 +11,33 @@ const SignUpPage = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    navigate("/login");
+    axios
+      .post("http://localhost:5000/api/v1/auth/signup", {
+        username,
+        email,
+        password,
+      })
+      .then((result) => {
+        if (result.status === 201) {
+          localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("user", JSON.stringify({ email }));
+          navigate("/login");
+        }
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          window.alert("Email already exists. Please use a different email.");
+        } else {
+          console.log(err);
+        }
+      });
   };
 
   return (
     <div className="h-screen w-full hero-bg">
       <div className="flex justify-center items-center mt-20 mx-3">
-        <div className="w-full max-w-md p-8 space-y-6 bg-black/60 rounded-lg shadow-md">
-          <h1 className="text-center text-white text-2xl font-bold mb-4">
+        <div className="w-full max-w-md p-8 space-y-6 bg-gray-200 rounded-lg shadow-md">
+          <h1 className="text-center text-red-500 text-2xl font-bold mb-4">
             Sign Up
           </h1>
 
@@ -25,7 +45,7 @@ const SignUpPage = () => {
             <div>
               <label
                 htmlFor="username"
-                className="text-sm font-medium text-gray-300 block">
+                className="text-sm font-medium text-red-300 block">
                 Username
               </label>
               <input
@@ -40,7 +60,7 @@ const SignUpPage = () => {
             <div>
               <label
                 htmlFor="email"
-                className="text-sm font-medium text-gray-300 block">
+                className="text-sm font-medium text-red-300 block">
                 Email
               </label>
               <input
@@ -56,7 +76,7 @@ const SignUpPage = () => {
             <div>
               <label
                 htmlFor="password"
-                className="text-sm font-medium text-gray-300 block">
+                className="text-sm font-medium text-red-300 block">
                 Password
               </label>
               <input

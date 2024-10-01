@@ -10,7 +10,7 @@ const AllMoviesPage = () => {
     axios
       .get("http://localhost:5000/api/v1/movie")
       .then((response) => {
-        setMovies(response.data);
+        setMovies(response.data.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

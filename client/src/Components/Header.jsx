@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
 
 const Header = () => {
   const navigate = useNavigate();
-  const handleSignInClick = () => {
-    navigate("/SignUp");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  });
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false);
+    navigate("/signup");
   };
+
   return (
     <header
       className="w-full p-4 bg-gray-100
@@ -51,12 +64,24 @@ const Header = () => {
             </select>
           </div>
 
-          {/* Sign In */}
-          <button
-            className="bg-red-500 text-white px-4 py-2 rounded-full flex items-center space-x-1"
-            onClick={handleSignInClick}>
-            <span>Sign in</span>
-          </button>
+          {isLoggedIn ? (
+            <div className="flex items-center space-x-2">
+              <FaUser className="text-red-500 text-2xl cursor-pointer" />{" "}
+              {/* User Icon */}
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-full"
+                onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded-full"
+              onClick={() => navigate("/signup")} // Navigate to Signup
+            >
+              Sign Up
+            </button>
+          )}
 
           {/* Mobile Menu Icon */}
           <div className="md:hidden">

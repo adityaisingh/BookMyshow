@@ -11,7 +11,7 @@ const PrevArrow = (props) => {
   return (
     <button
       onClick={onClick}
-      className="absolute left-0 z-10 top-1/2 transform -translate-y-1/2 bg-gray-300 text-white rounded-full p-2 shadow-md hover:bg-blue-600 transition duration-200">
+      className="absolute left-0 z-10 top-1/2 transform -translate-y-1/2 bg-gray-300 text-white rounded-full p-2 shadow-md hover:bg-red-600 transition duration-200">
       <span className="text-2xl">&lt;</span>
     </button>
   );
@@ -22,7 +22,7 @@ const NextArrow = (props) => {
   return (
     <button
       onClick={onClick}
-      className="absolute right-0 z-10 top-1/2 transform -translate-y-1/2 bg-gray-300 text-white rounded-full p-2 shadow-md hover:bg-blue-600 transition duration-200">
+      className="absolute right-0 z-10 top-1/2 transform -translate-y-1/2 bg-gray-300 text-white rounded-full p-2 shadow-md hover:bg-red-600 transition duration-200">
       <span className="text-2xl">&gt;</span>
     </button>
   );
@@ -45,7 +45,6 @@ const MoviePage = () => {
     axios
       .get("http://localhost:5000/api/v1/movie")
       .then((response) => {
-        console.log(response.data.data);
         setMovies(response.data.data);
       })
       .catch((error) => {
@@ -55,19 +54,21 @@ const MoviePage = () => {
 
   return (
     <div>
-      <div className="bg-gray-100 flex flex-col ">
+      <div className=" w-full flex flex-col justify-center  bg-gray-200 relative ">
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-2xl font-semibold px-10">Recommended Movies</h2>
+          <h2 className="text-2xl font-semibold px-9">Recommended Movies</h2>
           <Link to="/all-movie" className=" hover:underline px-20 text-red-500">
             See All {">"}
           </Link>
         </div>
 
-        <Slider {...settings}>
-          {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </Slider>
+        <div className="py-2 px-10 relative">
+          <Slider {...settings}>
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </Slider>
+        </div>
       </div>
     </div>
   );

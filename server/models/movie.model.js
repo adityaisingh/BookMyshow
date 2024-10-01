@@ -7,7 +7,6 @@ const movieSchema = new mongoose.Schema({
   },
   genres: {
     type: String,
-    required: true,
   },
   rating: {
     type: Number,
@@ -15,7 +14,7 @@ const movieSchema = new mongoose.Schema({
   },
   votes: {
     type: String, // Could also be a Number, depending on how you store it
-    required: true,
+    // required: true,
   },
   image: {
     type: String,

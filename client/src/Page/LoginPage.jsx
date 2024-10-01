@@ -1,3 +1,4 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,15 +11,26 @@ const loginPage = () => {
 
   const handlelogin = (e) => {
     e.preventDefault();
-    navigate("/");
+    axios
+      .post("http://localhost:5000/api/v1/auth/login", { email, password })
+      .then((result) => {
+        if (result.status === 200) {
+          localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("user", JSON.stringify({ email }));
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <div>
       <div className="h-screen w-full hero-bg">
         <div className="flex justify-center items-center mt-20 mx-3">
-          <div className="w-full max-w-md p-8 space-y-6 bg-black/60 rounded-lg shadow-md">
-            <h1 className="text-center text-white text-2xl font-bold mb-4">
+          <div className="w-full max-w-md p-8 space-y-6 bg-gray-200 rounded-lg shadow-md">
+            <h1 className="text-center text-red-500 text-2xl font-bold mb-4">
               Log In
             </h1>
 
@@ -26,7 +38,7 @@ const loginPage = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="text-sm font-medium text-gray-300 block">
+                  className="text-sm font-medium text-red-300 block">
                   Email
                 </label>
                 <input
@@ -42,7 +54,7 @@ const loginPage = () => {
               <div>
                 <label
                   htmlFor="password"
-                  className="text-sm font-medium text-gray-300 block">
+                  className="text-sm font-medium text-red-300 block">
                   Password
                 </label>
                 <input
@@ -65,7 +77,7 @@ const loginPage = () => {
             </form>
             <div className="text-center text-gray-400">
               Don't Have Account?
-              <Link to={"/login"} className="text-red-500 hover:underline">
+              <Link to={"/signup"} className="text-red-500 hover:underline">
                 Sign Up
               </Link>
             </div>

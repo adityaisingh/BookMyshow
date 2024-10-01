@@ -8,7 +8,7 @@ const MovieCard = ({ movie }) => {
     navigate(`/details/${id}`);
   };
   return (
-    <div className="max-w-[300px] overflow-hidden shadow-lg my-2 mx-3 bg-white rounded-xl  ">
+    <div className="max-w-[300px] overflow-hidden shadow-lg my-2 mx-3 bg-white rounded-xl mb-2 ">
       <div
         className="cursor-pointer"
         onClick={() => handleCardClick(movie?._id)}>
