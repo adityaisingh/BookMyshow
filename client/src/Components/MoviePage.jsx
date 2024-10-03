@@ -42,21 +42,28 @@ const MoviePage = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/v1/movie")
-      .then((response) => {
-        setMovies(response.data.data);
-      })
-      .catch((error) => {
+    const fetchMovies = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/v1/movie");
+
+        if (response.data && response.data.data) {
+          setMovies(response.data.data);
+        } else {
+          console.error("Unexpected response structure:", response.data);
+        }
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
+      }
+    };
+
+    fetchMovies();
   }, []);
 
   return (
-    <div>
-      <div className=" w-full flex flex-col justify-center  bg-gray-200 relative ">
+    <div className="flex justify-center">
+      <div className="max-w-6xl flex flex-col justify-center  bg-white relative ">
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-2xl font-semibold px-9">Recommended Movies</h2>
+          <h2 className="text-3xl font-bold px-9">Recommended Movies</h2>
           <Link to="/all-movie" className=" hover:underline px-20 text-red-500">
             See All {">"}
           </Link>
@@ -64,8 +71,8 @@ const MoviePage = () => {
 
         <div className="py-2 px-10 relative">
           <Slider {...settings}>
-            {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+            {movies.map((movie, index) => (
+              <MovieCard key={index} movie={movie} />
             ))}
           </Slider>
         </div>

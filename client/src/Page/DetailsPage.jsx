@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { FaStar, FaShareAlt } from "react-icons/fa";
 
 const MovieDetails = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -34,6 +34,10 @@ const MovieDetails = () => {
   if (!movie) {
     return <div>Movie not found.</div>;
   }
+
+  const handleCart = () => {
+    navigate(`/cart/${id}`);
+  };
 
   return (
     <div className="p-4 md:p-8 lg:p-16 text-white bg-black">
@@ -83,7 +87,9 @@ const MovieDetails = () => {
             <button className="mt-4 bg-red-600 text-white px-6 py-2  rounded-lg hover:bg-red-700 transition-all">
               BOOK TICKETS
             </button>
-            <button className="mt-4 bg-red-600 text-white px-6 py-2  rounded-lg hover:bg-red-700 transition-all ">
+            <button
+              className="mt-4 bg-red-600 text-white px-6 py-2  rounded-lg hover:bg-red-700 transition-all "
+              onClick={handleCart}>
               ADD TO CART
             </button>
           </div>

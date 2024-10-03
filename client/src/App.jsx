@@ -5,9 +5,10 @@ import Header from "./Components/Header";
 import SignUpPage from "./Page/SignUpPage";
 import LoginPage from "./Page/loginPage";
 import HomePage from "./Components/HomePage";
-import AllMoviesPage from "./Page/AllmoviePage";
 import Footer from "./Components/Footer";
 import DetailsPage from "./Page/detailsPage";
+
+import AllMoviesPage from "./Page/AllMoviePage";
 
 const App = () => {
   return (

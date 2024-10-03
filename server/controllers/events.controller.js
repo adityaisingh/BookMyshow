@@ -1,3 +1,5 @@
-export const getallevents = (req, res) => {
-    
-};
+const getallevents = (req,res) =>{
+     nkl
+}
+
+export default getallevents;

@@ -5,8 +5,8 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
 import movieRoutes from "./routes/movie.route.js";
-import eventRoutes from "./routes/event.route.js"
-
+import eventRoutes from "./routes/event.route.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -19,10 +19,11 @@ app.use(
 );
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1", movieRoutes);
-app.use("/api/v1",eventRoutes)
+app.use("/api/v1", eventRoutes);
 
 connectDB();
 app.listen(5000, () => {

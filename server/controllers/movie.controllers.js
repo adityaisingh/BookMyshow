@@ -2,7 +2,7 @@ import Movie from "../models/movie.model.js";
 
 export const finddata = async (req, res) => {
   try {
-    const data = await Movie.find();
+    const data = await Movie.find();       
     return res.status(200).json({
       success: true,
       message: "data fetches successfully",

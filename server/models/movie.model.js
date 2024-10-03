@@ -13,7 +13,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   votes: {
-    type: String, // Could also be a Number, depending on how you store it
+    type: String,
     // required: true,
   },
   image: {
@@ -25,8 +25,8 @@ const movieSchema = new mongoose.Schema({
     default: false,
   },
   likes: {
-    type: String, // Or Number, based on your data structure
-    default: null, // Optional for movies that don't use likes
+    type: String, 
+    default: null, 
   },
 });
 

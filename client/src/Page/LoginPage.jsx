@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -11,18 +12,20 @@ const loginPage = () => {
 
   const handlelogin = (e) => {
     e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/v1/auth/login", { email, password })
-      .then((result) => {
-        if (result.status === 200) {
-          localStorage.setItem("isLoggedIn", true);
-          localStorage.setItem("user", JSON.stringify({ email }));
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      const result = axios.post("http://localhost:5000/api/v1/auth/login", {
+        email,
+        password,
       });
+
+      if (result.status === 200) {
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("user", JSON.stringify({ email }));
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(err);
+    }
   };
 
   return (
@@ -43,7 +46,7 @@ const loginPage = () => {
                 </label>
                 <input
                   type="email"
-                  className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-white focus:outline-none focus:ring"
+                  className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent  text-black focus:outline-none focus:ring"
                   placeholder="you@example.com"
                   id="email"
                   value={email}
@@ -59,7 +62,7 @@ const loginPage = () => {
                 </label>
                 <input
                   type="password"
-                  className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-white focus:outline-none focus:ring"
+                  className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent  text-black focus:outline-none focus:ring"
                   placeholder="••••••••"
                   id="password"
                   value={password}
@@ -68,7 +71,7 @@ const loginPage = () => {
               </div>
 
               <button
-                className="w-full py-2 bg-red-600 text-white font-semibold rounded-md
+                className="w-full py-2 bg-red-600  text-black font-semibold rounded-md
 							hover:bg-red-700
 						"
                 onClick={handlelogin}>

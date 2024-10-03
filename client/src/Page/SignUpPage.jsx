@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
+
+import { RxCross1 } from "react-icons/rx";
+
+import OAuth from "../Components/OAuth";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -8,49 +13,56 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:5000/api/v1/auth/signup", {
-        username,
-        email,
-        password,
-      })
-      .then((result) => {
-        if (result.status === 201) {
-          localStorage.setItem("isLoggedIn", true);
-          localStorage.setItem("user", JSON.stringify({ email }));
-          navigate("/login");
+  const handleSignUp = async (e) => {
+    try {
+      setLoading(true);
+      e.preventDefault();
+      const result = await axios.post(
+        "http://localhost:5000/api/v1/auth/signup",
+        {
+          username,
+          email,
+          password,
         }
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 400) {
-          window.alert("Email already exists. Please use a different email.");
-        } else {
-          console.log(err);
-        }
-      });
+      );
+
+      toast.success("user created successfully");
+
+      navigate("/login");
+
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <div className="h-screen w-full hero-bg">
-      <div className="flex justify-center items-center mt-20 mx-3">
-        <div className="w-full max-w-md p-8 space-y-6 bg-gray-200 rounded-lg shadow-md">
-          <h1 className="text-center text-red-500 text-2xl font-bold mb-4">
-            Sign Up
-          </h1>
+      <div className="flex justify-center items-center mt-20 mx-2">
+        <div className=" max-w-sm p-2 space-y-2  rounded-lg ">
+          <button
+            className="absolute px-64 text-black "
+            onClick={() => navigate("/")}>
+            <RxCross1 size={24} />
+          </button>
+          <div className="flex justify-center">
+            <h1 className="text-center text-black text-2xl font-bold mb-4">
+              Sign Up
+            </h1>
+          </div>
 
           <form className="space-y-4" onSubmit={handleSignUp}>
             <div>
               <label
                 htmlFor="username"
-                className="text-sm font-medium text-red-300 block">
+                className="text-sm font-medium text-black block">
                 Username
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-white focus:outline-none focus:ring"
+                className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-black focus:outline-none focus:ring"
                 placeholder="johndoe"
                 id="username"
                 value={username}
@@ -60,12 +72,12 @@ const SignUpPage = () => {
             <div>
               <label
                 htmlFor="email"
-                className="text-sm font-medium text-red-300 block">
+                className="text-sm font-medium text-black block">
                 Email
               </label>
               <input
                 type="email"
-                className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-white focus:outline-none focus:ring"
+                className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent  text-black focus:outline-none focus:ring"
                 placeholder="you@example.com"
                 id="email"
                 value={email}
@@ -76,12 +88,12 @@ const SignUpPage = () => {
             <div>
               <label
                 htmlFor="password"
-                className="text-sm font-medium text-red-300 block">
+                className="text-sm font-medium text-black block">
                 Password
               </label>
               <input
                 type="password"
-                className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent text-white focus:outline-none focus:ring"
+                className="w-full px-3 py-2 mt-1 border border-gray-700 rounded-md bg-transparent  text-black focus:outline-none focus:ring"
                 placeholder="••••••••"
                 id="password"
                 value={password}
@@ -90,19 +102,22 @@ const SignUpPage = () => {
             </div>
 
             <button
-              className="w-full py-2 bg-red-600 text-white font-semibold rounded-md
-							hover:bg-red-700
+              className="w-full py-2 bg-white  text-black font-bold rounded-md  border border-gray-700
+						
 						"
+              disabled={loading}
               onClick={handleSignUp}>
               Sign Up
             </button>
+            <div class=" h-0.5 bg-black mx-2"></div>
+            <OAuth />
+            <div className="text-center text-black">
+              Already a member?{" "}
+              <Link to={"/login"} className="text-red-500 hover:underline">
+                login
+              </Link>
+            </div>
           </form>
-          <div className="text-center text-gray-400">
-            Already a member?{" "}
-            <Link to={"/login"} className="text-red-500 hover:underline">
-              login
-            </Link>
-          </div>
         </div>
       </div>
     </div>
