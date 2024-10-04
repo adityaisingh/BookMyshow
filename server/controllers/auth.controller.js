@@ -116,60 +116,6 @@ export async function logout(req, res) {
   }
 }
 
-// export const google = async (req, res) => {
-//   const { email, name = "defaultName", googlePhotoUrl } = req.body;
-
-//   try {
-//     const user = await User.findOne({ email });
-
-//     if (user) {
-//       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-
-//       const { password, ...rest } = user._doc;
-
-//       res
-//         .status(200)
-//         .cookie("jwt-BookmyShow", token, {
-//           httpOnly: true,
-//         })
-//         .json(rest);
-//     } else {
-//       const generatedPassword =
-//         Math.random().toString(36).slice(-8) +
-//         Math.random().toString(36).slice(-8);
-//       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-
-//       const newUser = new User({
-//         username:
-//           name.toLowerCase().split(" ").join("") +
-//           Math.random().toString(9).slice(-4),
-//         email,
-//         password: hashedPassword,
-//         profilePicture: googlePhotoUrl,
-//       });
-
-//       await newUser.save();
-
-//       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
-
-//       const { password, ...rest } = newUser._doc;
-
-//       return res
-//         .status(200)
-//         .cookie("jwt-BookmyShow", token, {
-//           httpOnly: true,
-//         })
-//         .json(rest);
-//     }
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Server Error: Something went wrong.",
-//       error: error.message,
-//     });
-//   }
-// };
-
 export const google = async (req, res, next) => {
   const { email, name = "defaultName", googlePhotoUrl } = req.body;
   if (!email) {
@@ -178,46 +124,45 @@ export const google = async (req, res, next) => {
       .json({ success: false, message: "Email is required" });
   }
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("-password");
     if (user) {
       const token = jwt.sign(
-        { id: user._id, isAdmin: user.isAdmin },
+        { id: user._id, isAdmin: user?.isAdmin },
         process.env.JWT_SECRET
       );
-      const { password, ...rest } = user._doc;
       res
         .status(200)
         .cookie("jwt-BookmyShow", token, {
           httpOnly: true,
           sameSite: "strict",
         })
-        .json({ success: true, ...rest });
+        .json({ success: true, user });
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-      const newUser = new User({
+      const newUser = await User.create({
         username:
           name.toLowerCase().split(" ").join("") +
           Math.random().toString(9).slice(-4),
-        email,
+        email: email,
         password: hashedPassword,
         profilePicture: googlePhotoUrl,
       });
-      await newUser.save();
       const token = jwt.sign(
-        { id: newUser._id, isAdmin: newUser.isAdmin },
+        { id: newUser._id, isAdmin: newUser?.isAdmin },
         process.env.JWT_SECRET
       );
       const { password, ...rest } = newUser._doc;
+
       res
         .status(201)
         .cookie("jwt-BookmyShow", token, {
           httpOnly: true,
           sameSite: "Strict",
         })
-        .json({ success: true, ...rest });
+        .json({ success: true, user: rest });
     }
   } catch (error) {
     return res.status(500).json({

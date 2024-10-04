@@ -4,9 +4,16 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  signInFailure,
+  signInSucess,
+  signInStart,
+} from "../redux/user/userSlice";
 
 const loginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,10 +28,18 @@ const loginPage = () => {
       if (result.status === 200) {
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("user", JSON.stringify({ email }));
+        toast.success(" Successfully Login");
+        dispatch(signInSucess({ email }));
         navigate("/");
       }
     } catch (error) {
-      console.log(err);
+      console.log(error);
+
+      dispatch(signInFailure(error.response?.data || "Login failed"));
+
+      toast.error(
+        "Login failed: " + (error.response?.data.message || error.message)
+      );
     }
   };
 

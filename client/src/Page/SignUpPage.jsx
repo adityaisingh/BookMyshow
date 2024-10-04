@@ -16,9 +16,10 @@ const SignUpPage = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (e) => {
+    e.preventDefault();
     try {
       setLoading(true);
-      e.preventDefault();
+
       const result = await axios.post(
         "http://localhost:5000/api/v1/auth/signup",
         {
@@ -43,7 +44,7 @@ const SignUpPage = () => {
       <div className="flex justify-center items-center mt-20 mx-2">
         <div className=" max-w-sm p-2 space-y-2  rounded-lg ">
           <button
-            className="absolute px-64 text-black "
+            className="absolute px-72 text-black "
             onClick={() => navigate("/")}>
             <RxCross1 size={24} />
           </button>
@@ -109,11 +110,11 @@ const SignUpPage = () => {
               onClick={handleSignUp}>
               Sign Up
             </button>
-            <div class=" h-0.5 bg-black mx-2"></div>
+            <div className=" h-0.5 bg-black mx-2"></div>
             <OAuth />
             <div className="text-center text-black">
               Already a member?{" "}
-              <Link to={"/login"} className="text-red-500 hover:underline">
+              <Link to={"/login"} className="text-black hover:underline">
                 login
               </Link>
             </div>

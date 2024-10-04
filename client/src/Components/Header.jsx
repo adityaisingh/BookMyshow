@@ -3,22 +3,30 @@ import { FiMenu } from "react-icons/fi";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { Avatar, Button, Dropdown } from "flowbite-react";
+import { logoutSuccess } from "../redux/user/userSlice";
+import axios from "axios";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     setIsLoggedIn(loggedIn);
   });
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    navigate("/signup");
+  const handleSignout = () => {
+    try {
+      const res = axios.post("http://localhost:5000/api/v1/auth/logout");
+      dispatch(logoutSuccess(null));
+      navigate("/signup");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -30,7 +38,13 @@ const Header = () => {
           <div className="flex items-center space-x-2">
             <Link to="/">
               <div className="text-red-600 text-3xl font-bold">
-                book<span className="text-black">my</span>show
+                <img
+                  src="/bookmyshow.png"
+                  alt=""
+                  height={"75"}
+                  width={"150"}
+                  className="bg-black border-0"
+                />
               </div>
             </Link>
           </div>
@@ -52,8 +66,8 @@ const Header = () => {
           {/* Right Section: Location, Sign In, and Menu */}
           <div className="flex items-center space-x-6">
             {/* Location */}
-            <div className="hidden md:flex items-center text-gray-600 cursor-pointer p-1 border-0 rounded-lg">
-              <select id="cities" name="cities">
+            <div className="hidden md:flex items-center text-gray-600 cursor-pointer ">
+              <select id="cities" name="cities" className=" border-0">
                 <option value="Bengaluru">Popular Cities</option>
                 <option value="Bengaluru">Bengaluru</option>
                 <option value="Mumbai">Mumbai</option>
@@ -64,23 +78,36 @@ const Header = () => {
               </select>
             </div>
 
-            {isLoggedIn ? (
-              <div className="flex items-center space-x-2">
-                <FaUser className="text-red-500 text-2xl cursor-pointer" />{" "}
-                {/* User Icon */}
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded-full"
-                  onClick={handleLogout}>
-                  Logout
-                </button>
-              </div>
+            {currentUser ? (
+              <Dropdown
+                arrowIcon={false}
+                inline
+                label={
+                  <Avatar
+                    alt="user"
+                    img={currentUser.profilePicture}
+                    rounded
+                    status="online"
+                    className="w-10 h-15"
+                  />
+                }>
+                <Dropdown.Header>
+                  <span className="block text-sm font-medium truncate">
+                    {currentUser.email}
+                  </span>
+                </Dropdown.Header>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={handleSignout} className="rounded-lg">
+                  Sign out
+                </Dropdown.Item>
+              </Dropdown>
             ) : (
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded-full"
+              <Button
+                className="bg-red-500 text-white  rounded-full h-115"
                 onClick={() => navigate("/signup")} // Navigate to Signup
               >
                 Sign Up
-              </button>
+              </Button>
             )}
 
             {/* Mobile Menu Icon */}
