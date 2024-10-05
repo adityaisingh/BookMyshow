@@ -7,8 +7,10 @@ import LoginPage from "./Page/loginPage";
 import HomePage from "./Components/HomePage";
 import Footer from "./Components/Footer";
 import DetailsPage from "./Page/detailsPage";
-
 import AllMoviesPage from "./Page/AllMoviePage";
+
+import Sitelayout from "./Page/Sitelayout";
+import MovieShowTimingPage from "./Page/MovieShowTimingPage";
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/all-movie" element={<AllMoviesPage />} />
         <Route path="/details/:id" element={<DetailsPage />} />
+        <Route path="/movietiming-page" element={<MovieShowTimingPage />} />
+        <Route path="/Site-layout" element={<Sitelayout />} />
       </Routes>
       <Footer />
     </div>

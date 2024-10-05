@@ -31,11 +31,11 @@ export default function Carousel() {
   }, [currentIndex]);
 
   return (
-    <div className="relative w-full h-[400px] overflow-hidden">
+    <div className="relative w-full h-[400px] overflow-hidden ">
       <div
         className="flex transition-transform duration-500 ease-in-out gap-1 "
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-        {images.map((image, index) => (                                                      
+        {images.map((image, index) => (
           <div
             key={index}
             className="w-full flex-shrink-0 h-[350px] mt-1  px-1 py-5 rounded-lg"

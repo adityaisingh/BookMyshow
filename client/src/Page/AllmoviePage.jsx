@@ -7,16 +7,43 @@ import { Card, Badge, Sidebar, Accordion, Button } from "flowbite-react";
 
 const AllMoviesPage = () => {
   const [movies, setMovies] = useState([]);
+  const [selectedFormats, setSelectedFormats] = useState([]);
+  const [selectedLanguages, setSelectedLanguages] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [templanguage, setTemplanguage] = useState("");
+  const [fdata, setfdata] = useState([]);
+
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/v1/movie")
-      .then((response) => {
+    const fetchMovies = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/v1/movie`);
+        const moviedata = response.data.data;
         setMovies(response.data.data);
-      })
-      .catch((error) => {
+
+        const filtermoview =
+          moviedata &&
+          moviedata.filter((movie) =>
+            movie.language.some(
+              (lang) => lang.toLowerCase() === templanguage.toLowerCase()
+            )
+          );
+
+        setfdata(filtermoview);
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
-  }, []);
+      }
+    };
+
+    fetchMovies();
+  }, [selectedLanguages, templanguage, movies]);
+
+  const toggleLanguage = (language) => {
+    setSelectedLanguages((prevSelected) =>
+      prevSelected.includes(language)
+        ? prevSelected.filter((lang) => lang !== language)
+        : [...prevSelected, language]
+    );
+  };
 
   const languages = [
     "English",
@@ -51,18 +78,6 @@ const AllMoviesPage = () => {
   ];
   const Formats = ["2D", "3D", "4DX", "ICE", "7D", "IMAX 2D", "2D SCREENX"];
 
-  const [selectedFormats, setSelectedFormats] = useState([]);
-  const [selectedLanguages, setSelectedLanguages] = useState([]);
-  const [selectedGenres, setSelectedGenres] = useState([]);
-
-  const toggleLanguage = (language) => {
-    setSelectedLanguages((prevSelected) =>
-      prevSelected.includes(language)
-        ? prevSelected.filter((lang) => lang !== language)
-        : [...prevSelected, language]
-    );
-  };
-
   return (
     <div className="max-w-7xl mx-auto m-10 flex ">
       <Sidebar className="w-64 h-screen">
@@ -80,7 +95,7 @@ const AllMoviesPage = () => {
                         color={
                           selectedLanguages.includes(lang) ? "info" : "gray"
                         }
-                        onClick={() => toggleLanguage(lang)}
+                        onClick={() => setTemplanguage(lang)}
                         className="cursor-pointer text-red-600 ">
                         {lang}
                       </Button>
@@ -135,20 +150,22 @@ const AllMoviesPage = () => {
           {languages.map((lang) => (
             <Badge
               key={lang}
-              color={selectedLanguages.includes(lang) ? "info" : "gray"}
-              onClick={() => toggleLanguage(lang)}
+              color={selectedLanguages.includes(lang) ? "info" : "red"}
+              // onClick={() => toggleLanguage(lang)}
+              onClick={() => setTemplanguage(lang)}
               className="cursor-pointer">
               {lang}
             </Badge>
           ))}
         </div>
 
-
         <div className="p-10 px-20 max-w-4xl mx-auto">
           <div className="flex flex-wrap justify-end  ">
-            {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
+            {fdata.length > 0
+              ? fdata.map((movie) => <MovieCard key={movie.id} movie={movie} />)
+              : movies.map((movie) => (
+                  <MovieCard key={movie.id} movie={movie} />
+                ))}
           </div>
         </div>
       </main>

@@ -104,7 +104,7 @@ const Header = () => {
             ) : (
               <Button
                 className="bg-red-500 text-white  rounded-full h-115"
-                onClick={() => navigate("/signup")} // Navigate to Signup
+                onClick={() => navigate("/signup")}
               >
                 Sign Up
               </Button>

@@ -25,8 +25,18 @@ const movieSchema = new mongoose.Schema({
     default: false,
   },
   likes: {
-    type: String, 
-    default: null, 
+    type: String,
+    default: null,
+  },
+  language: {
+    type: [String],
+  },
+  genre:{ 
+      type:[String],
+  },
+  castCrewId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Cast",
   },
 });
 
