@@ -13,6 +13,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  // console.log("CURERENT", currentUser);
 
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
@@ -22,7 +23,7 @@ const Header = () => {
   const handleSignout = () => {
     try {
       const res = axios.post("http://localhost:5000/api/v1/auth/logout");
-      dispatch(logoutSuccess(null));
+      dispatch(logoutSuccess());
       navigate("/signup");
     } catch (error) {
       console.log(error.message);
@@ -104,8 +105,7 @@ const Header = () => {
             ) : (
               <Button
                 className="bg-red-500 text-white  rounded-full h-115"
-                onClick={() => navigate("/signup")}
-              >
+                onClick={() => navigate("/signup")}>
                 Sign Up
               </Button>
             )}

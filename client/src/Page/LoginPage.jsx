@@ -18,20 +18,25 @@ const loginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handlelogin = (e) => {
+  const handlelogin = async (e) => {
     e.preventDefault();
     try {
-      const result = axios.post("http://localhost:5000/api/v1/auth/login", {
-        email,
-        password,
-      });
+      const result = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        {
+          email: email,
+          password: password,
+        }
+      );
+      toast.success("user login successfully");
 
       if (result.status === 200) {
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("user", JSON.stringify({ email }));
         toast.success(" Successfully Login");
-        dispatch(signInSucess({ email }));
-        navigate("/");
+
+        dispatch(signInSucess(result.data?.user));
+         navigate("/");
       }
     } catch (error) {
       console.log(error);

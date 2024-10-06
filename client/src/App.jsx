@@ -6,7 +6,7 @@ import SignUpPage from "./Page/SignUpPage";
 import LoginPage from "./Page/loginPage";
 import HomePage from "./Components/HomePage";
 import Footer from "./Components/Footer";
-import DetailsPage from "./Page/detailsPage";
+import DetailsPage from "./Page/DetailsPage";
 import AllMoviesPage from "./Page/AllMoviePage";
 
 import Sitelayout from "./Page/Sitelayout";

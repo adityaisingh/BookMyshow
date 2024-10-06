@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card } from "flowbite-react";
 import { Button } from "flowbite-react";
 import { Datepicker } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const TheaterShowtimes = () => {
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
+
+  // Use useEffect to handle navigation side-effects
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/login");
+    }
+  }, [currentUser, navigate]); // Effect runs when currentUser or navigate changes
 
   const theaters = [
     {
@@ -25,20 +34,21 @@ const TheaterShowtimes = () => {
     },
   ];
 
+  // Return null to avoid rendering the component if the user is null
+  if (!currentUser) {
+    return null; // This prevents the component from rendering before the redirect
+  }
+
   return (
     <div className="max-w-3xl mx-auto space-y-4 p-4 ">
       <div>
         <h2 className="text-3xl font-semibold px-3 border border-gray-200 rounded-lg">
-          Movies{" "}
+          Movies
         </h2>
         <div className="flex gap-3 m-3 " onClick={() => navigate("/all-movie")}>
-          {" "}
           <Button className="text-black border border-red-400">Action</Button>
           <Button className="text-black border border-red-400">Drama</Button>
-          <Button className="text-black border border-red-400">
-            {" "}
-            Thriller
-          </Button>
+          <Button className="text-black border border-red-400">Thriller</Button>
         </div>
         <div className="border border-gray-200"></div>
         <div className="mt-4">
