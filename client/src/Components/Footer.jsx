@@ -11,11 +11,13 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-gray-300 py-12">
+    <footer className="bg-gray-800 text-gray-300 py-8 sm:py-12">
       {/* Upper Section with Icons and CTA */}
-      <div className="container mx-auto flex justify-between items-center pb-8">
-        <div className="flex space-x-4 items-center">
-          <Link to="/list-your-show" className="flex items-center space-x-2">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center pb-8 space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 items-center text-center md:text-left">
+          <Link
+            to="/list-your-show"
+            className="flex flex-col md:flex-row items-center space-x-0 md:space-x-2">
             <span className="text-white font-bold">List your Show</span>
             <p className="text-sm">
               Got a show, event, or activity? Get listed on BookMyShow.
@@ -28,8 +30,8 @@ const Footer = () => {
       </div>
 
       {/* Lower Section with Links */}
-      <div className="container mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 text-sm">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 text-sm">
           {/* Movies Showing Section */}
           <div>
             <h3 className="font-bold text-gray-400">MOVIES SHOWING IN</h3>
@@ -84,10 +86,10 @@ const Footer = () => {
       </div>
 
       {/* Bottom Section with Social Media Icons */}
-      <div className="container mx-auto pt-8 border-t border-gray-700">
-        <div className="flex justify-between items-center">
+      <div className="container mx-auto pt-8 border-t border-gray-700 mt-8 px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-center md:text-left">
           <p className="text-gray-400">© 2024 BookMyShow</p>
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 justify-center">
             <FaFacebookF />
             <FaTwitter />
             <FaInstagram />
