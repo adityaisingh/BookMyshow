@@ -69,14 +69,14 @@ export async function signup(req, res) {
 export async function login(req, res) {
   try {
     const { email, password } = req.body;
-
+    // console.log(email, password);
     if (!email || !password) {
       return res
         .status(400)
         .json({ success: false, message: "All fields are required" });
     }
 
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email }).select();
     if (!user) {
       return res
         .status(404)
@@ -96,7 +96,7 @@ export async function login(req, res) {
     res.status(200).json({
       success: true,
       user: {
-        ...user._doc,
+        ...user.toObject(),
         password: "",
       },
     });
@@ -169,6 +169,43 @@ export const google = async (req, res, next) => {
       success: false,
       message: "Server Error: Something went wrong.",
       error: error.message,
+    });
+  }
+};
+
+// Promationing user to admin
+
+export const promoteToAdmin = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findByID(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not Found!",
+      });
+    }
+
+    if (user.role === "admin") {
+      return res.status(400).json({
+        success: false,
+        message: "User already admin!",
+      });
+    }
+
+    user.role = "admin", 
+    await user.save();
+
+    return res.status(201).json({
+      success: true,
+      message: "User promoted to admin successfully!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
     });
   }
 };

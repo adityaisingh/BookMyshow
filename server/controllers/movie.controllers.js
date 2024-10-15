@@ -1,4 +1,5 @@
 import Movie from "../models/movie.model.js";
+import Seat from "../models/seat.model.js";
 
 export const finddata = async (req, res) => {
   try {
@@ -52,11 +53,11 @@ export const savedata = async (req, res) => {
 };
 
 export const updateMovie = async (req, res) => {
-  const { langauge: val, castCrewId, genre } = req.body;
+  const { langauge: val, castCrewId } = req.body;
   try {
     const data = await Movie.findByIdAndUpdate(
       req.params.id,
-      { genre },
+      { castCrewId },
       { new: true }
     );
     return res.status(200).json({
@@ -68,6 +69,87 @@ export const updateMovie = async (req, res) => {
     return res.status(404).json({
       success: false,
       message: err,
+    });
+  }
+};
+
+// export const SearchMovie = async (req, res) => {
+
+//   const { query } = req.query;
+//   // console.log(query);
+//   try {
+//     const movie = await Movie.find({
+//       $or: [{ _id: query }, { title: { $regex: query, $options: "i" } }],
+//     });
+
+//     if (!movie || movie.length === 0) {
+//       return res.status(400).json({ message: "Movie not found" });
+//     }
+
+//     return res.json(movie);
+//   } catch (error) {
+//     return res.status(500).json({ message: "Server Error" });
+//   }
+// };
+
+//Delete a movie(admin only)
+export const deleteMovie = async (req, res) => {
+  try {
+    const data = await Movie.findByIdAndDelete(req.params.id);
+
+    if (!data) {
+      return res
+        .status(404)
+        .json({ sucess: false, message: "Movie not Found" });
+    }
+
+    return res.status(200).json({
+      sucess: true,
+      message: "Movie deleted Sucessfully",
+    });
+  } catch (error) {
+    return res.status(500).json({ sucess: false, message: err.message });
+  }
+};
+
+
+
+// resetSeatBooking by Admin Only
+export const resetSeatBooking = async (req, res) => {
+  try {
+    const { movieId, movieDate, movieTimeSlot } = req.body;
+
+    const seatRecord = await Seat.findOne({
+      movieId,
+      movieDate,
+      movieTimeSlot,
+    });
+
+    if (!seatRecord) {
+      return res.status(404).json({
+        success: false,
+        message: "Seat record not Found for this show!",
+      });
+    }
+
+    // Reset All seat Statusese to "avialable"
+
+    seatRecord.bookingStatus = seatRecord.bookingStatus.map((seat) => ({
+      ...seat,
+      status: "available",
+    }));
+
+    await seatRecord.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "All seats have been reset to available!",
+      data: seatRecord.bookingStatus,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: err.message,
     });
   }
 };
