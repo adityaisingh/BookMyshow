@@ -19,6 +19,7 @@ const MovieDetails = () => {
         );
         setMovie(response.data.data);
 
+
         setLoading(false);
       } catch (error) {
         console.error("Error fetching movie details:", error);
@@ -37,7 +38,6 @@ const MovieDetails = () => {
     return <div>Movie not found.</div>;
   }
 
-  const movieId = 550;
 
   return (
     <div>
@@ -89,14 +89,14 @@ const MovieDetails = () => {
             <div className="flex gap-6">
               <button
                 className="mt-4 bg-red-600 text-white px-6 py-2  rounded-lg hover:bg-red-700 transition-all"
-                onClick={() => navigate("/movietiming-page")}>
+                onClick={() => navigate(`/movietiming-page/${id}`)}>
                 BOOK TICKETS
               </button>
             </div>
           </div>
         </div>
       </div>
-      <Crew movieId={movieId} />
+      <Crew castcrew={movie?.castCrewId} />
       <div className="border-t border-gray-200"></div>
       <ReviewSection />
     </div>

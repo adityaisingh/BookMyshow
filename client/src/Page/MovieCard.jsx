@@ -13,7 +13,7 @@ const MovieCard = ({ movie }) => {
         className="cursor-pointer"
         onClick={() => handleCardClick(movie?._id)}>
         <img
-          className="rounded-t-lg h-[40vh] "
+          className="rounded-t-lg h-[50vh] "
           src={movie.image}
           alt={movie.title}
         />

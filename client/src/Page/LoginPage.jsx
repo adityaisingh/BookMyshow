@@ -30,14 +30,8 @@ const loginPage = () => {
       );
       toast.success("user login successfully");
 
-      if (result.status === 200) {
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("user", JSON.stringify({ email }));
-        toast.success(" Successfully Login");
-
-        dispatch(signInSucess(result.data?.user));
-         navigate("/");
-      }
+      dispatch(signInSucess(result.data?.user));
+      navigate("/");
     } catch (error) {
       console.log(error);
 

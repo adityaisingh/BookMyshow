@@ -8,9 +8,9 @@ import HomePage from "./Components/HomePage";
 import Footer from "./Components/Footer";
 import DetailsPage from "./Page/DetailsPage";
 import AllMoviesPage from "./Page/AllMoviePage";
-
-import Sitelayout from "./Page/Sitelayout";
-import MovieShowTimingPage from "./Page/MovieShowTimingPage";
+import Sitelayout from "./Page/buytickets/Sitelayout";
+import MovieShowTimingPage from "./Page/buytickets/MovieShowTimingPage";
+import ProfilePage from "./Page/ProfilePage";
 
 const App = () => {
   return (
@@ -23,8 +23,10 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/all-movie" element={<AllMoviesPage />} />
         <Route path="/details/:id" element={<DetailsPage />} />
-        <Route path="/movietiming-page" element={<MovieShowTimingPage />} />
-        <Route path="/Site-layout" element={<Sitelayout />} />
+        <Route path="/Profile-Page" element={<ProfilePage />} />
+
+        <Route path="/movietiming-page/:id" element={<MovieShowTimingPage />} />
+        <Route path="/Site-Selection/:id" element={<Sitelayout />} />
       </Routes>
       <Footer />
     </div>

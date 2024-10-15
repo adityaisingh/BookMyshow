@@ -2,7 +2,7 @@ import React from "react";
 
 const Banner = () => {
   return (
-    <div className="flex justify-center items-center py-10">
+    <div className="flex justify-center items-center py-6">
       <img src="/bannerBookmyshow.avif" alt="Banner" />
     </div>
   );

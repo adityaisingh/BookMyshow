@@ -11,6 +11,7 @@ const AllMoviesPage = () => {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [templanguage, setTemplanguage] = useState("");
+
   const [fdata, setfdata] = useState([]);
 
   useEffect(() => {
@@ -20,30 +21,27 @@ const AllMoviesPage = () => {
         const moviedata = response.data.data;
         setMovies(response.data.data);
 
-        const filtermoview =
+        const filterMovies =
           moviedata &&
-          moviedata.filter((movie) =>
-            movie.language.some(
-              (lang) => lang.toLowerCase() === templanguage.toLowerCase()
-            )
+          moviedata.filter(
+            (movie) =>
+              (selectedLanguages.length === 0 ||
+                movie.language.some((lang) =>
+                  selectedLanguages.includes(lang.toLowerCase())
+                )) &&
+              (selectedGenres.length === 0 ||
+                movie.genre.some((gen) =>
+                  selectedGenres.includes(gen.toLowerCase())
+                ))
           );
-
-        setfdata(filtermoview);
+        setfdata(filterMovies);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchMovies();
-  }, [selectedLanguages, templanguage, movies]);
-
-  const toggleLanguage = (language) => {
-    setSelectedLanguages((prevSelected) =>
-      prevSelected.includes(language)
-        ? prevSelected.filter((lang) => lang !== language)
-        : [...prevSelected, language]
-    );
-  };
+  }, [selectedLanguages, selectedGenres]);
 
   const languages = [
     "English",
@@ -59,7 +57,7 @@ const AllMoviesPage = () => {
     "Japanese",
     "Marathi",
   ];
-  const Genres = [
+  const genres = [
     "Drama",
     "Thriller",
     " Comedy",
@@ -77,13 +75,28 @@ const AllMoviesPage = () => {
     " Sci - Fi",
   ];
   const Formats = ["2D", "3D", "4DX", "ICE", "7D", "IMAX 2D", "2D SCREENX"];
+  const toggleLanguage = (lang) => {
+    setSelectedLanguages((prev) =>
+      prev.includes(lang.toLowerCase())
+        ? prev.filter((item) => item !== lang.toLowerCase())
+        : [...prev, lang.toLowerCase()]
+    );
+  };
+
+  const toggleGenre = (gen) => {
+    setSelectedGenres((prev) =>
+      prev.includes(gen.toLowerCase())
+        ? prev.filter((item) => item !== gen.toLowerCase())
+        : [...prev, gen.toLowerCase()]
+    );
+  };
 
   return (
     <div className="max-w-7xl mx-auto m-10 flex ">
       <Sidebar className="w-64 h-screen">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
-            <h3 className="text-lg font-semibold mb-2">Filters</h3>
+            <h3 className="text-lg font-semibold mb-2 p-5">Filters</h3>
             <Accordion>
               <Accordion.Panel>
                 <Accordion.Title>Languages</Accordion.Title>
@@ -93,7 +106,7 @@ const AllMoviesPage = () => {
                       <Button
                         key={lang}
                         color={
-                          selectedLanguages.includes(lang) ? "info" : "gray"
+                          selectedLanguages.includes(lang) ? "info" : "red"
                         }
                         onClick={() => setTemplanguage(lang)}
                         className="cursor-pointer text-red-600 ">
@@ -108,17 +121,23 @@ const AllMoviesPage = () => {
                 <Accordion.Title>Genres</Accordion.Title>
                 <Accordion.Content>
                   <div className="flex flex-wrap gap-2">
-                    {Genres.map((Gen) => (
+                    {genres.map((gen) => (
                       <Button
-                        key={Gen}
-                        color={selectedGenres.includes(Gen) ? "info" : "gray"}
-                        onClick={() => toggleGenre(Gen)}
-                        className="cursor-pointer text-red-600 ">
-                        {Gen}
+                        key={gen}
+                        color={
+                          selectedGenres.includes(gen.toLowerCase())
+                            ? "info"
+                            : "gray"
+                        }
+                        onClick={() => toggleGenre(gen)}
+                        className="cursor-pointer text-red-600">
+                        {gen}
                       </Button>
                     ))}
                   </div>
                 </Accordion.Content>
+              </Accordion.Panel>
+              <Accordion.Panel>
                 <div className="border"></div>
               </Accordion.Panel>
               <Accordion.Panel>
@@ -129,7 +148,7 @@ const AllMoviesPage = () => {
                       <Button
                         key={form}
                         color={selectedFormats.includes(form) ? "info" : "gray"}
-                        onClick={() => toggleGenre(form)}
+                        // onClick={() => toggleGenre(form)}
                         className="cursor-pointer text-red-600 ">
                         {form}
                       </Button>
@@ -146,14 +165,14 @@ const AllMoviesPage = () => {
       </Sidebar>
       <main className="flex-1 p-8">
         <h1 className="text-2xl font-bold mb-4">Movies In Bengaluru</h1>
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6 ">
           {languages.map((lang) => (
             <Badge
               key={lang}
               color={selectedLanguages.includes(lang) ? "info" : "red"}
               // onClick={() => toggleLanguage(lang)}
-              onClick={() => setTemplanguage(lang)}
-              className="cursor-pointer">
+              // onClick={() => setTemplanguage(lang)}
+              className="cursor-pointer border-red-600">
               {lang}
             </Badge>
           ))}
