@@ -3,7 +3,7 @@ import CastCrew from "../models/Cast.model.js";
 export const addcastcrew = async (req, res) => {
   const { cast, crew } = req.body;
   try {
-    const newCastCrew = await CastCrew.create({cast, crew});
+    const newCastCrew = await CastCrew.create({cast, crew}); 
     res.status(201).json({
       message: "Cast/Crew member added successfully",
       data: newCastCrew,

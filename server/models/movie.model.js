@@ -5,9 +5,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  genres: {
-    type: String,
-  },
+
   rating: {
     type: Number,
     required: true,
@@ -31,8 +29,8 @@ const movieSchema = new mongoose.Schema({
   language: {
     type: [String],
   },
-  genre:{ 
-      type:[String],
+  genre: {
+    type: [String],
   },
   castCrewId: {
     type: mongoose.Schema.Types.ObjectId,

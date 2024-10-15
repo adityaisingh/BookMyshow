@@ -17,6 +17,6 @@ const router = express.Router();
 
 // router.post("/castcrew", upload.single("image"), addcastcrew);
 router.post("/castcrew", addcastcrew);
-router.get("/castcrew", getallcastcrew);
+router.get("/castcrewfind", getallcastcrew);
 
 export default router;
