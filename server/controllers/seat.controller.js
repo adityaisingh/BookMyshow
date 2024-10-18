@@ -15,7 +15,6 @@ export const findSeatData = async (req, res) => {
     // Convert movieId string to ObjectId
     const objectId = new mongoose.Types.ObjectId(movieId);
 
-    // Find the seat data using ObjectId
 
     const data = await Seat.findOne({
       movieId: objectId,
@@ -91,12 +90,12 @@ export const bookSeat = async (req, res) => {
       });
     }
 
-    // Check seat availability
+    
     const unavailableSeats = seats.filter((seat) => {
       const bookedSeat = seatData.bookingStatus.find(
         (status) => status.seatNumber === seat && status.status === "booked"
       );
-      return bookedSeat !== undefined; // Return true if seat is booked
+      return bookedSeat !== undefined; 
     });
 
     if (unavailableSeats.length > 0) {
@@ -114,19 +113,19 @@ export const bookSeat = async (req, res) => {
 
     await seatData.save(); // Save the updated seat data
 
-    // Create a new booking entry
+ 
     const booking = new Booking({
       movieId,
       showdata: movieDate,
       userId: new mongoose.Types.ObjectId(userId),
       seatNumbers: seats,
       bookingStatus: "confirmed",
-      // paymentStatus: "con",
+    
     });
 
-    await booking.save(); // Save the booking
+    await booking.save(); 
 
-    // Respond with success and booking details
+ 
     return res.status(201).json({
       success: true,
       message: "Booking confirmed",

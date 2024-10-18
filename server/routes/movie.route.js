@@ -25,8 +25,7 @@ router.get("/movie/:id", finddatabyid); // Everyone can view a specific movie
 // Admin routes
 router.post("/save", isAdmin, savedata); // Only admins can add a movie
 router.put("/update/:id", isAdmin, updateMovie); // Only admins can update a movie
-router.delete("/delete/:id", isAdmin, deleteMovie);// Delete a movie by ID
-router.put("/reset-seats", isAdmin, resetSeatBooking);// reset seat bookings for a show
+router.delete("/delete/:id", isAdmin, deleteMovie); // Delete a movie by ID
 
 // Booking routes
 router.post("/get-booked-seats/:id", findSeatData); // Everyone can check booked seats
