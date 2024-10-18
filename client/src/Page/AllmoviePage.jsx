@@ -7,10 +7,9 @@ import { Card, Badge, Sidebar, Accordion, Button } from "flowbite-react";
 
 const AllMoviesPage = () => {
   const [movies, setMovies] = useState([]);
-  const [selectedFormats, setSelectedFormats] = useState([]);
+
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [templanguage, setTemplanguage] = useState("");
 
   const [fdata, setfdata] = useState([]);
 
@@ -50,31 +49,9 @@ const AllMoviesPage = () => {
     "Malayalam",
     "Telugu",
     "Tamil",
-    "English 7D",
-    "Multi Language",
-    "Assamese",
-    "Hinglish",
-    "Japanese",
-    "Marathi",
   ];
-  const genres = [
-    "Drama",
-    "Thriller",
-    " Comedy",
-    " Action",
-    " Romantic",
-    "Adventure",
-    " Fmaily",
-    " Animation",
-    " Fantasy",
-    "Crime",
-    " Horror",
-    " Musical",
-    " Mystery",
-    "Period",
-    " Sci - Fi",
-  ];
-  const Formats = ["2D", "3D", "4DX", "ICE", "7D", "IMAX 2D", "2D SCREENX"];
+  const genres = ["Drama", "Thriller", " Comedy", " Action", " Romantic"];
+
   const toggleLanguage = (lang) => {
     setSelectedLanguages((prev) =>
       prev.includes(lang.toLowerCase())
@@ -108,7 +85,7 @@ const AllMoviesPage = () => {
                         color={
                           selectedLanguages.includes(lang) ? "info" : "red"
                         }
-                        onClick={() => setTemplanguage(lang)}
+                        onClick={() => toggleLanguage(lang)}
                         className="cursor-pointer text-red-600 ">
                         {lang}
                       </Button>
@@ -140,22 +117,6 @@ const AllMoviesPage = () => {
               <Accordion.Panel>
                 <div className="border"></div>
               </Accordion.Panel>
-              <Accordion.Panel>
-                <Accordion.Title>Format</Accordion.Title>
-                <Accordion.Content>
-                  <div className="flex flex-wrap gap-2">
-                    {Formats.map((form) => (
-                      <Button
-                        key={form}
-                        color={selectedFormats.includes(form) ? "info" : "gray"}
-                        // onClick={() => toggleGenre(form)}
-                        className="cursor-pointer text-red-600 ">
-                        {form}
-                      </Button>
-                    ))}
-                  </div>
-                </Accordion.Content>
-              </Accordion.Panel>
             </Accordion>
             <Button className="mt-4 w-full text-red-600">
               Browse by Cinemas
@@ -170,8 +131,6 @@ const AllMoviesPage = () => {
             <Badge
               key={lang}
               color={selectedLanguages.includes(lang) ? "info" : "red"}
-              // onClick={() => toggleLanguage(lang)}
-              // onClick={() => setTemplanguage(lang)}
               className="cursor-pointer border-red-600">
               {lang}
             </Badge>

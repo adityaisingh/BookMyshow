@@ -43,13 +43,16 @@ const LiveEventsCarousel = () => {
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-20">
       <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-4 text-center">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-center">
           The Best Of Live Events
         </h2>
-        <div className="max-w-5xl mb-16 mx-24 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-center justify-center pb-4">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 items-center justify-center pb-8">
           {eventCategories.map((category, index) => (
-            <div key={index}>
-              <Card imgSrc={category.image} className="h-[19vh] shadow-none" />
+            <div key={index} className="w-full">
+              <Card
+                imgSrc={category.image}
+                className="h-[25vh] sm:h-[20vh] md:h-[18vh] lg:h-[19vh] shadow-md transition-transform hover:scale-105"
+              />
             </div>
           ))}
         </div>

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiX } from "react-icons/fi"; // For menu icons
+import { Navbar, Dropdown } from "flowbite-react";
+import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
 
-const Navbar = () => {
+const NavComponent = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -10,23 +11,48 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-100 shadow-lg border-t-2">
-      <div className="container mx-auto px-4 py-3 md:flex md:justify-between items-center">
-    
-        <div className="hidden md:flex space-x-6 font-bold">
-          <Link to="/all-movie" className="text-gray-700 hover:text-red-500">
-            Movies
-          </Link>
-          <Link to="/stream" className="text-gray-700 hover:text-red-500">
-            Stream
-          </Link>
-          <Link to="/events" className="text-gray-700 hover:text-red-500">
-            Events
-          </Link>
-          <Link to="/plays" className="text-gray-700 hover:text-red-500">
-            Plays
-          </Link>
-        </div>
+    <Navbar fluid className="bg-gray-100 shadow-lg border-t-2">
+      <div className="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+        <Navbar.Toggle onClick={toggleMenu} className="md:hidden">
+          {isOpen ? (
+            <HiX className="w-6 h-6" />
+          ) : (
+            <HiOutlineMenuAlt3 className="w-6 h-6" />
+          )}
+        </Navbar.Toggle>
+
+        <Navbar.Collapse className="w-full md:block md:w-auto">
+          <ul className="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:font-bold">
+            <li>
+              <Link
+                to="/all-movie"
+                className="block py-2 pr-4 pl-3 text-gray-700 hover:text-red-500 md:p-0">
+                Movies
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/stream"
+                className="block py-2 pr-4 pl-3 text-gray-700 hover:text-red-500 md:p-0">
+                Stream
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/events"
+                className="block py-2 pr-4 pl-3 text-gray-700 hover:text-red-500 md:p-0">
+                Events
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/plays"
+                className="block py-2 pr-4 pl-3 text-gray-700 hover:text-red-500 md:p-0">
+                Plays
+              </Link>
+            </li>
+          </ul>
+        </Navbar.Collapse>
 
         <div className="hidden md:flex space-x-6 font-bold">
           <Link
@@ -42,8 +68,8 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-    </nav>
+    </Navbar>
   );
 };
 
-export default Navbar;
+export default NavComponent;
